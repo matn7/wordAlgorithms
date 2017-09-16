@@ -27,6 +27,11 @@ public class WordChainsTest {
 		assertEquals("occured passed: ", expected, value);
 	}
 	
+	@Test(expected=NullPointerException.class)
+	public void testCountOccurrencesNullPointerException() {
+		int value = WordChains.countOccurrences(null, null);
+	}
+	
 	@Test
 	public void testSearchForMatch() {
 		List<String> expected = new ArrayList<>();
@@ -76,6 +81,11 @@ public class WordChainsTest {
 		
 	}
 	
+	@Test(expected=NullPointerException.class)
+	public void testSearchForMatchNullPointerException() {
+		List<String> value = WordChains.searchForMatch(null, null, null);
+	}
+	
 	@Test
 	public void testGetWord() {
 		String expected = "rode";		
@@ -104,10 +114,12 @@ public class WordChainsTest {
 		wordOccured.put("lald", 2);
 		value = WordChains.getWord(wordOccured, endWord);
 		assertEquals("get word based on max num of match sequence of string to endWord", expected, value);
-		
-		
-		
-		
 	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testGetWordNullPointerException() {
+		String value = WordChains.getWord(null, null);	
+	}
+	
 
 }
