@@ -22,11 +22,11 @@ public class WordChains {
 
 	    public static void main(String[] args) {
 
-	        String[] startArr = {"cat", "gold", "code", "adam"};
-	        String[] endArr = {"dog", "lead", "ruby", "ruby"};
+	        String[] startArr = {"cat", "gold", "code", "bdrm","adam"}; //"bdrm"
+	        String[] endArr = {"dog", "lead", "ruby", "ruby", "ruby"};
 
-	        String startWord = startArr[3];
-	        String endWord = endArr[3];
+	        String startWord = startArr[0];
+	        String endWord = endArr[0];
 
 	        // Download resource as List<String>
 	        Callable<List<String>> readResources = new ReadFromURL("http://codekata.com/data/wordlist.txt", startWord.length(), startWord, endWord);
@@ -77,13 +77,15 @@ public class WordChains {
 	        searchedWord = startWord;
 	        found = false;
 	        path.add(startWord);
+	        
 	        int k = 0;
-
+	        
+	        System.out.println(startWord.length() - 1);
 	        while (found != true) {
 	            for (int i = 0; i < endWord.length(); i++) {
 	            	// Requirements was that we can traverse through list by changing just one letter in word.
 	            	// For example start word is cat: check regex from retrieved list match [.at,c.t,ca.]
-	                regex = searchedWord.replace(searchedWord.charAt(i), '.');
+	            	regex = searchedWord.replace(searchedWord.charAt(i), '.');	            	
 
 	                // Word List from Dictionary that match our regex
 	                contentList = searchForMatch(oneCallableResult, regex, searchedWord);
@@ -109,13 +111,21 @@ public class WordChains {
 	            }
 	            
 	            // Use wordOccured map to get word that match requirements
-	            searchedWord = getWord(wordOccured, endWord);
+	            try {
+					searchedWord = getWord(wordOccured, endWord);
+				} catch (NoSuchElementException e) {
+					System.out.println("============================");
+					System.out.println(e.getMessage());
+					break;
+					
+				}
 	            
 	            // append result to path List
 	            path.add(searchedWord);
 	            
+	            
 	            if (k > 0) {
-	            	if (path.get(k).equals(path.get(k-1))) {
+	            	if (path.get(k).equals(path.get(k-1)) || countOccurrences(path.get(k),path.get(k-1)) != startWord.length()-1) {
 	            		// path values are the same than we detected infinite loop.
 	            		// Remove this element from oneCallableResult list, and start process again.
 	            		searchedWord = startWord;
@@ -127,7 +137,7 @@ public class WordChains {
 	            		wordOccured.clear();
 	            		// new path List add first element
 	            		path.add(startWord);
-	            		k = 0;
+	            		k = 1;
 	            	} else {
 	            		k++;
 	            	}
@@ -140,10 +150,9 @@ public class WordChains {
 	        System.out.println("============================");
 	        System.out.println("Found Path");
 	        for (String word : path) {
-
 	            System.out.println(word);
 	        }
-
+	      
 	    }
 
 	    public static List<String> searchForMatch(List<String> oneCallableResult, String regex, String startWord) {
@@ -167,7 +176,7 @@ public class WordChains {
 	        return wordList;
 	    }
 
-	    public static String getWord(Map<String, Integer> wordOccured, String endWord) {
+	    public static String getWord(Map<String, Integer> wordOccured, String endWord) throws NoSuchElementException {
 	    	Preconditions.checkNotNull(wordOccured, "Map wordOccured cannot be null");
 	    	Preconditions.checkNotNull(endWord, "End word cannot be null");
 	    	// Main part of program find match word of each step.
@@ -182,7 +191,10 @@ public class WordChains {
 	        int max = 0; 
 	        String matchWord = null; 
 	        Map<String, Integer> wordHelper = new HashMap<>(); 
-	        Map<Integer, String> wordHelperSeq = new HashMap<>();
+	        //Map<Integer, String> wordHelperSeq = new HashMap<>();
+	        List<Integer> wordHelperSeqInt = new ArrayList<>();
+	        List<String> wordHelperSeqString = new ArrayList<>();
+	        int biggest = 0;
 	        for (Map.Entry<String, Integer> pair : wordOccured.entrySet()) {
 	            if (max < pair.getValue()) {
 	                max = pair.getValue();
@@ -216,12 +228,21 @@ public class WordChains {
 	                    }
 	                }
 	                biggestNumber.add(sequenceIndex);
-	                wordHelperSeq.put(sequenceIndex, pair.getKey());
+	                //wordHelperSeq.put(sequenceIndex, pair.getKey());
+	                wordHelperSeqInt.add(sequenceIndex);
+	                wordHelperSeqString.add(pair.getKey());
 	                sequenceIndex = 0;
 	                activateSequence = false;
 	            }
-	            int biggest = Collections.max(biggestNumber);
-	            matchWord = wordHelperSeq.get(biggest);
+	            if (biggestNumber.size() != 0) {
+	            	biggest = Collections.max(biggestNumber);
+	            } else {	            	
+					throw new NoSuchElementException("Do not found path sorry");
+	            }
+	            
+	            int index = wordHelperSeqInt.indexOf(biggest);
+	            //matchWord = wordHelperSeq.get(biggest);
+	            matchWord = wordHelperSeqString.get(index);
 	        }
 	        return matchWord;
 	    }
