@@ -22,11 +22,11 @@ public class WordChains {
 
 	    public static void main(String[] args) {
 
-	        String[] startArr = {"cat", "gold", "code"};
-	        String[] endArr = {"dog", "lead", "ruby"};
+	        String[] startArr = {"cat", "gold", "code", "adam"};
+	        String[] endArr = {"dog", "lead", "ruby", "ruby"};
 
-	        String startWord = startArr[1];
-	        String endWord = endArr[1];
+	        String startWord = startArr[3];
+	        String endWord = endArr[3];
 
 	        // Download resource as List<String>
 	        Callable<List<String>> readResources = new ReadFromURL("http://codekata.com/data/wordlist.txt", startWord.length(), startWord, endWord);
@@ -77,6 +77,7 @@ public class WordChains {
 	        searchedWord = startWord;
 	        found = false;
 	        path.add(startWord);
+	        int k = 0;
 
 	        while (found != true) {
 	            for (int i = 0; i < endWord.length(); i++) {
@@ -102,16 +103,37 @@ public class WordChains {
 	                    }
 	                }
 	            }
-
-	            // Use wordOccured map to get word that match requirements
-	            searchedWord = getWord(wordOccured, endWord);
-
 	            // In case of word found break out while loop
 	            if (found == true) {
 	                break;
 	            }
+	            
+	            // Use wordOccured map to get word that match requirements
+	            searchedWord = getWord(wordOccured, endWord);
+	            
 	            // append result to path List
 	            path.add(searchedWord);
+	            
+	            if (k > 0) {
+	            	if (path.get(k).equals(path.get(k-1))) {
+	            		// path values are the same than we detected infinite loop.
+	            		// Remove this element from oneCallableResult list, and start process again.
+	            		searchedWord = startWord;
+	            		oneCallableResult.remove(oneCallableResult.indexOf(path.get(k)));
+	            		// clear all collections and variables
+	            		path.clear();
+	            		contentList.clear();
+	            		countOccurencesValue = 0;
+	            		wordOccured.clear();
+	            		// new path List add first element
+	            		path.add(startWord);
+	            		k = 0;
+	            	} else {
+	            		k++;
+	            	}
+	            } else {
+	            	k++;
+	            }
 	        }
 
 
