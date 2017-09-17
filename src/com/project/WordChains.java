@@ -22,11 +22,12 @@ public class WordChains {
 
 	    public static void main(String[] args) {
 
-	        String[] startArr = {"cat", "gold", "code", "bdrm","adam"}; //"bdrm"
+	    	// One way implementation. StartWord should be before EndWord in Dictionary.
+	        String[] startArr = {"cat", "gold", "code", "bdrm", "adam"}; // For path "adam" -> "ruby" no path match criteria found
 	        String[] endArr = {"dog", "lead", "ruby", "ruby", "ruby"};
 
-	        String startWord = startArr[0];
-	        String endWord = endArr[0];
+	        String startWord = startArr[4];
+	        String endWord = endArr[4];
 
 	        // Download resource as List<String>
 	        Callable<List<String>> readResources = new ReadFromURL("http://codekata.com/data/wordlist.txt", startWord.length(), startWord, endWord);
@@ -79,8 +80,7 @@ public class WordChains {
 	        path.add(startWord);
 	        
 	        int k = 0;
-	        
-	        System.out.println(startWord.length() - 1);
+
 	        while (found != true) {
 	            for (int i = 0; i < endWord.length(); i++) {
 	            	// Requirements was that we can traverse through list by changing just one letter in word.
@@ -109,9 +109,9 @@ public class WordChains {
 	            if (found == true) {
 	                break;
 	            }
-	            
-	            // Use wordOccured map to get word that match requirements
+	                        
 	            try {
+	            	// Use wordOccured map to get word that match requirements
 					searchedWord = getWord(wordOccured, endWord);
 				} catch (NoSuchElementException e) {
 					System.out.println("============================");
@@ -123,10 +123,11 @@ public class WordChains {
 	            // append result to path List
 	            path.add(searchedWord);
 	            
-	            
+	          
 	            if (k > 0) {
 	            	if (path.get(k).equals(path.get(k-1)) || countOccurrences(path.get(k),path.get(k-1)) != startWord.length()-1) {
-	            		// path values are the same than we detected infinite loop.
+	            		// Path values are the same than we detected infinite loop OR
+	            		// Path values differ with more than 1 letter.
 	            		// Remove this element from oneCallableResult list, and start process again.
 	            		searchedWord = startWord;
 	            		oneCallableResult.remove(oneCallableResult.indexOf(path.get(k)));
@@ -149,6 +150,7 @@ public class WordChains {
 
 	        System.out.println("============================");
 	        System.out.println("Found Path");
+	        System.out.println("============================");
 	        for (String word : path) {
 	            System.out.println(word);
 	        }
@@ -190,8 +192,7 @@ public class WordChains {
 	    	// Algorithm choose goad.
 	        int max = 0; 
 	        String matchWord = null; 
-	        Map<String, Integer> wordHelper = new HashMap<>(); 
-	        //Map<Integer, String> wordHelperSeq = new HashMap<>();
+	        Map<String, Integer> wordHelper = new HashMap<>();
 	        List<Integer> wordHelperSeqInt = new ArrayList<>();
 	        List<String> wordHelperSeqString = new ArrayList<>();
 	        int biggest = 0;
@@ -228,7 +229,6 @@ public class WordChains {
 	                    }
 	                }
 	                biggestNumber.add(sequenceIndex);
-	                //wordHelperSeq.put(sequenceIndex, pair.getKey());
 	                wordHelperSeqInt.add(sequenceIndex);
 	                wordHelperSeqString.add(pair.getKey());
 	                sequenceIndex = 0;
@@ -236,12 +236,12 @@ public class WordChains {
 	            }
 	            if (biggestNumber.size() != 0) {
 	            	biggest = Collections.max(biggestNumber);
-	            } else {	            	
+	            } else {	    
+	            	// If no match values found throw NoSuchElementException. Program ends.
 					throw new NoSuchElementException("Do not found path sorry");
 	            }
 	            
 	            int index = wordHelperSeqInt.indexOf(biggest);
-	            //matchWord = wordHelperSeq.get(biggest);
 	            matchWord = wordHelperSeqString.get(index);
 	        }
 	        return matchWord;

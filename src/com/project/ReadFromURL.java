@@ -34,6 +34,7 @@ public class ReadFromURL implements Callable<List<String>> {
 
             while (line != null) {
                 if (line.length() == stringLength) {
+                		// Retrieve only data which match first char of start word and first character of end word.
                         if (((int)line.charAt(0) >= (int)startString.charAt(0) && (int) line.charAt(0) <= (int) endString.charAt(0))) {
                             lista.add(line);
                         }

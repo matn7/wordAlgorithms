@@ -96,12 +96,8 @@ public class WordChainsTest {
 		wordOccured.put("mode", 0);
 		wordOccured.put("lode", 0);
 		String value = null;
-		try {
-			value = WordChains.getWord(wordOccured, endWord);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		value = WordChains.getWord(wordOccured, endWord);
+
 		assertEquals("get word based on max occurrences: ", expected, value);
 		wordOccured.clear();
 
