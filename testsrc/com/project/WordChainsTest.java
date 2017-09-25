@@ -13,22 +13,24 @@ import org.junit.Test;
 public class WordChainsTest {
 
 	private WordChains wordChains;
+	private ProcessData processData;
 
 	@Before
 	public void setUp() throws Exception {
 		wordChains = new WordChains();
+		processData = new ProcessData();
 	}
 
 	@Test
 	public void testCountOccurrences() {
 		int expected = 2;
-		int value = WordChains.countOccurrences("cog", "dog");
+		int value = ProcessData.countTheOccurrences("cog", "dog");
 		assertEquals("occured passed: ", expected, value);
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testCountOccurrencesNullPointerException() {
-		int value = WordChains.countOccurrences(null, null);
+		int value = ProcessData.countTheOccurrences(null, null);
 	}
 
 	@Test
@@ -52,7 +54,7 @@ public class WordChainsTest {
 		String regex = ".at";
 		String startWord = "cat";
 
-		List<String> value = WordChains.searchForMatch(oneCallableResult, regex, startWord);
+		List<String> value = ProcessData.matchByRegex(oneCallableResult, regex, startWord);
 
 		assertArrayEquals(expected.toArray(), value.toArray());
 		expected.clear();
@@ -75,14 +77,14 @@ public class WordChainsTest {
 
 		regex = "c.t";
 
-		value = WordChains.searchForMatch(oneCallableResult, regex, startWord);
+		value = ProcessData.matchByRegex(oneCallableResult, regex, startWord);
 		assertArrayEquals(expected.toArray(), value.toArray());
 
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testSearchForMatchNullPointerException() {
-		List<String> value = WordChains.searchForMatch(null, null, null);
+		List<String> value = ProcessData.matchByRegex(null, null, null);
 	}
 
 	@Test
@@ -96,7 +98,7 @@ public class WordChainsTest {
 		wordOccured.put("mode", 0);
 		wordOccured.put("lode", 0);
 		String value = null;
-		value = WordChains.getWord(wordOccured, endWord);
+		value = ProcessData.getMatchingWord(wordOccured, endWord);
 
 		assertEquals("get word based on max occurrences: ", expected, value);
 		wordOccured.clear();
@@ -104,7 +106,7 @@ public class WordChainsTest {
 		expected = "ruby";
 		wordOccured.put("ruby", 4);
 		wordOccured.put("rubs", 3);
-		value = WordChains.getWord(wordOccured, endWord);
+		value = ProcessData.getMatchingWord(wordOccured, endWord);
 
 		assertEquals("get word which all letter match:", expected, value);
 		wordOccured.clear();
@@ -115,7 +117,7 @@ public class WordChainsTest {
 		wordOccured.put("geld", 2);
 		wordOccured.put("lald", 2);
 
-		value = WordChains.getWord(wordOccured, endWord);
+		value = ProcessData.getMatchingWord(wordOccured, endWord);
 
 		assertEquals("get word based on max num of match sequence of string to endWord", expected, value);
 	}
@@ -123,8 +125,17 @@ public class WordChainsTest {
 	@Test(expected = NullPointerException.class)
 	public void testGetWordNullPointerException() {
 		String value = null;
-		value = WordChains.getWord(null, null);
+		value = ProcessData.getMatchingWord(null, null);
 
+	}
+	
+	@Test
+	public void testSgn() {
+		int value = 2;
+		
+		assertEquals(value, Math.abs(-2));
+		//testSgn();
+		
 	}
 
 }
