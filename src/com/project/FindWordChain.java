@@ -1,5 +1,6 @@
 package com.project;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -8,24 +9,21 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-public class DownloadData {
-	private static List<String> directoryData;
-
-	public static List<String> downloadDirectory(String url, String startWord, String endWord) {
+public class FindWordChain {
+	
+	private static List<String> wordChainDataList;
+	
+	public static List<String> prepareData(List<String> directoryData, String startWord, String endWord) {
 		
-		Callable<List<String>> readResources = new ReadFromURL(url,
-				startWord.length(), startWord, endWord);
-
+		Callable<List<String>> processWordChain = new FindWordChainCallable(directoryData, startWord, endWord);
 		ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-		//List<Future<List<String>>> listOfFutures = new ArrayList<>();
+		List<Future<List<String>>> listOfFutures = new ArrayList<>();
 
-		Future<List<String>> oneFuture = executorService.submit(readResources);
-		//listOfFutures.add(oneFuture);
-
+		Future<List<String>> oneFuture = executorService.submit(processWordChain);
+		listOfFutures.add(oneFuture);
+		
 		try {
-			directoryData = oneFuture.get();
-			System.out.println("Directory content");
-			System.out.println("============================");
+			wordChainDataList = oneFuture.get();
 			for (String result : directoryData) {
 				System.out.println(result);
 			}
@@ -35,13 +33,15 @@ public class DownloadData {
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
+		
 		executorService.shutdown();
 		try {
 			executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
-		return directoryData;
+		
+		return wordChainDataList;
 	}
+
 }
