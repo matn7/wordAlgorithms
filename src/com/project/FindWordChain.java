@@ -36,7 +36,7 @@ public class FindWordChain implements Callable<List<String>> {
 
 		boolean resultFound = false;
 		String searchedWord = startWord;
-		int countOccurencesValue = 0;
+		int countOccurences = 0;
 		int loopIteration = 0;
 		String regex = null;
 
@@ -50,15 +50,15 @@ public class FindWordChain implements Callable<List<String>> {
 		while (resultFound != true) {
 			for (int i = 0; i < endWord.length(); i++) {
 				regex = searchedWord.replace(searchedWord.charAt(i), '.');
-				matchRegexList = ProcessData.matchByRegex(directoryData, regex, searchedWord);
+				matchRegexList = ProcessDirectoryData.matchByRegex(directoryData, regex, searchedWord);
 				for (String result : matchRegexList) {
 					if (result.contains(endWord)) {
 						foundWordChainList.add(endWord);
 						resultFound = true;
 						break;
 					} else {
-						countOccurencesValue = ProcessData.countWordsOccurrences(result, endWord);
-						wordOccurred.put(result, countOccurencesValue);
+						countOccurences = ProcessDirectoryData.countWordsOccurrences(result, endWord);
+						wordOccurred.put(result, countOccurences);
 					}
 				}
 			}
@@ -67,7 +67,7 @@ public class FindWordChain implements Callable<List<String>> {
 			}
 
 			try {
-				searchedWord = ProcessData.getMatchingWord(wordOccurred, endWord);
+				searchedWord = ProcessDirectoryData.getMatchingWord(wordOccurred, endWord);
 			} catch (NoSuchElementException e) {
 				System.out.println("============================");
 				System.out.println(e.getMessage());
@@ -80,13 +80,15 @@ public class FindWordChain implements Callable<List<String>> {
 			if (loopIteration > 0) {
 				wordIndex = foundWordChainList.get(loopIteration);
 				wordPrevIndex = foundWordChainList.get(loopIteration - 1);
+				// Check for errors
 				if (wordIndex.equals(wordPrevIndex)
 						|| neighborWordDifference(wordIndex, wordPrevIndex, startWord)) {
+					// Clean up
 					searchedWord = startWord;
 					directoryData.remove(directoryData.indexOf(foundWordChainList.get(loopIteration)));
 					foundWordChainList.clear();
 					matchRegexList.clear();
-					countOccurencesValue = 0;
+					countOccurences = 0;
 					wordOccurred.clear();
 					foundWordChainList.add(startWord);
 					loopIteration = 1;
@@ -100,8 +102,12 @@ public class FindWordChain implements Callable<List<String>> {
 		return foundWordChainList;
 	}
 
-	public boolean neighborWordDifference(String start, String end, String startWord) {
-		return ProcessData.countWordsOccurrences(start, end) != startWord.length() - 1;
+	public boolean neighborWordDifference(String wordIndex, String wordPrevIndex, String startWord) {
+		Preconditions.checkNotNull(wordIndex, "Current word cannot be null");
+		Preconditions.checkNotNull(wordPrevIndex, "Previous word cannot be null");
+		Preconditions.checkNotNull(startWord, "End word cannot be null");
+		// Neighbor word must differ with one word
+		return ProcessDirectoryData.countWordsOccurrences(wordIndex, wordPrevIndex) != startWord.length() - 1;
 	}
 
 	@Override

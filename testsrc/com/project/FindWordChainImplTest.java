@@ -18,7 +18,7 @@ public class FindWordChainImplTest {
 	}
 	
 	@Test
-	public void testPrepareData() {
+	public void testProcessDirectory() {
 		List<String> expected = new ArrayList<>();
 		expected.add("cat");
 		expected.add("cot");
@@ -38,14 +38,14 @@ public class FindWordChainImplTest {
 		
 		String startWord = "cat";
 		String endWord = "dog";
-		List<String> value = FindWordChainImpl.prepareData(directoryData, startWord, endWord);
-		assertArrayEquals("occured passed: ", expected.toArray(), value.toArray());
+		List<String> value = FindWordChainImpl.processDirectory(directoryData, startWord, endWord);
+		assertArrayEquals("Test result", expected.toArray(), value.toArray());
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void testPrepareDataPointerException() {
 		List<String> value = null;
-		value = FindWordChainImpl.prepareData(null, null, null);
+		value = FindWordChainImpl.processDirectory(null, null, null);
 
 	}
 	

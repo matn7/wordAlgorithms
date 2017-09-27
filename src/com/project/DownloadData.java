@@ -18,16 +18,15 @@ public class DownloadData {
 		Preconditions.checkNotNull(url, "Url cannot be null");
 		Preconditions.checkNotNull(startWord, "Start word cannot be null");
 		Preconditions.checkNotNull(endWord, "End word cannot be null");
-		
-		Callable<List<String>> readResources = new ReadFromURL(url,
-				startWord.length(), startWord, endWord);
+		int stringLength = startWord.length();
+		Callable<List<String>> readResources = new ReadFromURL(url, stringLength, startWord, endWord);
 
 		ExecutorService executorService = Executors.newFixedThreadPool(processors);
 
-		Future<List<String>> oneFuture = executorService.submit(readResources);
+		Future<List<String>> resultList = executorService.submit(readResources);
 
 		try {
-			directoryData = oneFuture.get();
+			directoryData = resultList.get();
 			System.out.println("Directory content");
 			System.out.println("============================");
 			for (String result : directoryData) {

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Preconditions;
 
-public class ProcessData {	
+public class ProcessDirectoryData {	
 	
 	public static List<String> matchByRegex(List<String> directoryData, String regex, String startWord) {
 		Preconditions.checkNotNull(directoryData, "List directoryData cannot be null");

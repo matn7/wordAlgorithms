@@ -42,19 +42,36 @@ public class FindWordChainTest {
 		String startWord = "cat";
 		String endWord = "dog";
 		List<String> value = findWordChain.findChain(directoryData, startWord, endWord);
-		assertArrayEquals("occured passed: ", expected.toArray(), value.toArray());		
-	}
-	
-	@Test
-	public void testNeighborWordDifference() {
-		boolean value = findWordChain.neighborWordDifference("berm", "bearm", "bdrm");
-		Assert.assertTrue(value);
+		assertArrayEquals("Test found word chain", expected.toArray(), value.toArray());		
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void testFindChainNullPointerException() {
 		List<String> value = null;
 		value = findWordChain.findChain(null, null, null);
+
+	}
+	
+	@Test
+	public void testNeighborWordDifference() {
+		boolean value = findWordChain.neighborWordDifference("berm", "beam", "bdrm");
+		Assert.assertFalse("Word differ with one word, positive case",value);
+		
+		value = findWordChain.neighborWordDifference("berm", "bzzm", "bdrm");
+		Assert.assertTrue("Word differ with two words",value);
+		
+		value = findWordChain.neighborWordDifference("berm", "bzzz", "bdrm");
+		Assert.assertTrue("Word differ with three words",value);
+		
+		value = findWordChain.neighborWordDifference("berm", "zzzz", "bdrm");
+		Assert.assertTrue("Word differ with all words",value);
+		
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testNeighborWordDifferenceNullPointerException() {
+		boolean value = false;
+		value = findWordChain.neighborWordDifference(null, null, null);
 
 	}
 

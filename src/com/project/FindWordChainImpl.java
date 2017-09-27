@@ -16,7 +16,7 @@ public class FindWordChainImpl {
 	
 	private static final int processors = Runtime.getRuntime().availableProcessors();
 	
-	public static List<String> prepareData(List<String> directoryData, String startWord, String endWord) {
+	public static List<String> processDirectory(List<String> directoryData, String startWord, String endWord) {
 		Preconditions.checkNotNull(directoryData, "directoryData cannot be null");
 		Preconditions.checkNotNull(startWord, "Start word cannot be null");
 		Preconditions.checkNotNull(endWord, "End word cannot be null");
@@ -24,10 +24,10 @@ public class FindWordChainImpl {
 		Callable<List<String>> findWordChain = new FindWordChain(directoryData, startWord, endWord);
 		ExecutorService executorService = Executors.newFixedThreadPool(processors);
 
-		Future<List<String>> oneFuture = executorService.submit(findWordChain);
+		Future<List<String>> resultList = executorService.submit(findWordChain);
 		
 		try {
-			wordChainDataList = oneFuture.get();
+			wordChainDataList = resultList.get();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {

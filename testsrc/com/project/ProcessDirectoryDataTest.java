@@ -12,27 +12,31 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ProcessDataTest {
+public class ProcessDirectoryDataTest {
 	
-	private ProcessData processData;
+	private ProcessDirectoryData processDirectoryData;
 	
 	@Before
 	public void setUp() throws Exception {
-		processData = new ProcessData();
+		processDirectoryData = new ProcessDirectoryData();
 	}
 	
 	@Test
 	public void testCountTheOccurrences() {
 		int expected = 2;
-		int value = ProcessData.countWordsOccurrences("cog", "dog");
-		assertEquals("occured passed: ", expected, value);
+		int value = ProcessDirectoryData.countWordsOccurrences("cog", "dog");
+		assertEquals("Test count word occurrences", expected, value);
+		
+		expected = 5;
+		value = ProcessDirectoryData.countWordsOccurrences("zxcvb", "zxcvb");
+		assertEquals("Test count word occurrences", expected, value);
 		
 
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void testCountTheOccurrencesNullPointerException() {
-		int value = ProcessData.countWordsOccurrences(null, null);
+		int value = ProcessDirectoryData.countWordsOccurrences(null, null);
 	}
 	
 	@Test
@@ -56,9 +60,9 @@ public class ProcessDataTest {
 		String regex = ".at";
 		String startWord = "cat";
 
-		List<String> value = ProcessData.matchByRegex(wordList, regex, startWord);
+		List<String> value = ProcessDirectoryData.matchByRegex(wordList, regex, startWord);
 
-		assertArrayEquals(expected.toArray(), value.toArray());
+		assertArrayEquals("Test arrays by regex .at", expected.toArray(), value.toArray());
 		expected.clear();
 		wordList.clear();
 
@@ -79,38 +83,39 @@ public class ProcessDataTest {
 
 		regex = "c.t";
 
-		value = ProcessData.matchByRegex(wordList, regex, startWord);
-		assertArrayEquals(expected.toArray(), value.toArray());
+		value = ProcessDirectoryData.matchByRegex(wordList, regex, startWord);
+		assertArrayEquals("Test arrays by regex c.t",expected.toArray(), value.toArray());
 
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void testMatchByRegexNullPointerException() {
-		List<String> value = ProcessData.matchByRegex(null, null, null);
+		List<String> value = ProcessDirectoryData.matchByRegex(null, null, null);
 	}
 	
 	@Test
 	public void testGetMatchingWord() {
-		String expected = "rode";
+		String expected = "rude";
 		String endWord = "ruby";
 		Map<String, Integer> wordOccured = new HashMap<>();
 
+		wordOccured.put("rude", 2);
 		wordOccured.put("rode", 1);
 		wordOccured.put("node", 0);
 		wordOccured.put("mode", 0);
 		wordOccured.put("lode", 0);
 		String value = null;
-		value = ProcessData.getMatchingWord(wordOccured, endWord);
+		value = ProcessDirectoryData.getMatchingWord(wordOccured, endWord);
 
-		assertEquals("get word based on max occurrences: ", expected, value);
+		assertEquals("Test get word based on max occurrences", expected, value);
 		wordOccured.clear();
 
 		expected = "ruby";
 		wordOccured.put("ruby", 4);
 		wordOccured.put("rubs", 3);
-		value = ProcessData.getMatchingWord(wordOccured, endWord);
+		value = ProcessDirectoryData.getMatchingWord(wordOccured, endWord);
 
-		assertEquals("get word which all letter match:", expected, value);
+		assertEquals("Test get word which all letter match", expected, value);
 		wordOccured.clear();
 
 		expected = "goad";
@@ -119,15 +124,15 @@ public class ProcessDataTest {
 		wordOccured.put("geld", 2);
 		wordOccured.put("lald", 2);
 
-		value = ProcessData.getMatchingWord(wordOccured, endWord);
+		value = ProcessDirectoryData.getMatchingWord(wordOccured, endWord);
 
-		assertEquals("get word based on max num of match sequence of string to endWord", expected, value);
+		assertEquals("Test get word based on max num of match sequence of string to endWord", expected, value);
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void testGetMatchingWordNullPointerException() {
 		String value = null;
-		value = ProcessData.getMatchingWord(null, null);
+		value = ProcessDirectoryData.getMatchingWord(null, null);
 
 	}
 
