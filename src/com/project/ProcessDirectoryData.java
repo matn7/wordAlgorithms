@@ -39,7 +39,6 @@ public class ProcessDirectoryData {
 		int maxTimeOccured = 0;
 		String matchWord = null;
 		Map<String, Integer> matchingResult = new HashMap<>();
-		//List<Integer> matchingResultSeqInt = new ArrayList<>();
 		List<String> matchingResultSeqString = new ArrayList<>();
 		int biggestSequence = 0;
 		for (Map.Entry<String, Integer> pair : wordOccured.entrySet()) {
@@ -74,7 +73,6 @@ public class ProcessDirectoryData {
 					}
 				}
 				biggestSequenceNumber.add(sequenceIndex);
-				//matchingResultSeqInt.add(sequenceIndex);
 				matchingResultSeqString.add(pair.getKey());
 				sequenceIndex = 0;
 				activateSequence = false;

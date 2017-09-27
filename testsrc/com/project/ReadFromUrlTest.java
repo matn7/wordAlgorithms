@@ -1,7 +1,5 @@
 package com.project;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +34,11 @@ public class ReadFromUrlTest {
 		end = "rabe";
 		actual = readFromUrl.alpabeticalOrder(start, end);
 		Assert.assertFalse(actual);	
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testAlpabeticalOrderNullPointerException() {
+		 readFromUrl.alpabeticalOrder(null, null);
 	}
 
 }

@@ -44,8 +44,7 @@ public class FindWordChainImplTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testPrepareDataPointerException() {
-		List<String> value = null;
-		value = FindWordChainImpl.processDirectory(null, null, null);
+		FindWordChainImpl.processDirectory(null, null, null);
 
 	}
 	

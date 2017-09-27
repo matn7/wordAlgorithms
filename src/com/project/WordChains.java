@@ -8,8 +8,8 @@ public class WordChains {
 		String[] startArr = { "cat", "gold", "code", "bdrm", "adam" , "caba", "dog", "lead"};
 		String[] endArr = { "dog", "lead", "ruby", "ruby", "ruby", "rype", "cat", "gold"};
 
-		String startWord = startArr[1];
-		String endWord = endArr[1];
+		String startWord = startArr[7];
+		String endWord = endArr[7];
 		String url = "http://codekata.com/data/wordlist.txt";
 		
 		List<String> directoryData = DownloadData.downloadDirectory(url, startWord, endWord);

@@ -27,8 +27,7 @@ public class DownloadDataTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testDownloadDirectoryNullPointerException() {
-		List<String> value = null;
-		value = DownloadData.downloadDirectory(null, null, null);
+		DownloadData.downloadDirectory(null, null, null);
 	}
 
 }

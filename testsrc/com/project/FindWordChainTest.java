@@ -47,8 +47,7 @@ public class FindWordChainTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testFindChainNullPointerException() {
-		List<String> value = null;
-		value = findWordChain.findChain(null, null, null);
+		findWordChain.findChain(null, null, null);
 
 	}
 	
@@ -70,8 +69,7 @@ public class FindWordChainTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testNeighborWordDifferenceNullPointerException() {
-		boolean value = false;
-		value = findWordChain.neighborWordDifference(null, null, null);
+		findWordChain.neighborWordDifference(null, null, null);
 
 	}
 

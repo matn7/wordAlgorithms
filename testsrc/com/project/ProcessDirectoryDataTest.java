@@ -35,7 +35,7 @@ public class ProcessDirectoryDataTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testCountTheOccurrencesNullPointerException() {
-		int value = ProcessDirectoryData.countWordsOccurrences(null, null);
+		ProcessDirectoryData.countWordsOccurrences(null, null);
 	}
 	
 	@Test
@@ -89,7 +89,7 @@ public class ProcessDirectoryDataTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testMatchByRegexNullPointerException() {
-		List<String> value = ProcessDirectoryData.matchByRegex(null, null, null);
+		ProcessDirectoryData.matchByRegex(null, null, null);
 	}
 	
 	@Test
@@ -130,8 +130,7 @@ public class ProcessDirectoryDataTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testGetMatchingWordNullPointerException() {
-		String value = null;
-		value = ProcessDirectoryData.getMatchingWord(null, null);
+		ProcessDirectoryData.getMatchingWord(null, null);
 
 	}
 

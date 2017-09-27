@@ -106,7 +106,7 @@ public class FindWordChain implements Callable<List<String>> {
 		Preconditions.checkNotNull(wordIndex, "Current word cannot be null");
 		Preconditions.checkNotNull(wordPrevIndex, "Previous word cannot be null");
 		Preconditions.checkNotNull(startWord, "End word cannot be null");
-		// Neighbor word must differ with one word
+		// Neighbor words must differ with one letter
 		return ProcessDirectoryData.countWordsOccurrences(wordIndex, wordPrevIndex) != startWord.length() - 1;
 	}
 

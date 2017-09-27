@@ -7,9 +7,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+
+import com.google.common.base.Preconditions;
 
 public class ReadFromUrl implements Callable<List<String>> {
 
@@ -31,6 +32,8 @@ public class ReadFromUrl implements Callable<List<String>> {
 	}
 	
 	public boolean alpabeticalOrder(String startWord, String endWord) {
+		Preconditions.checkNotNull(startWord, "Start word cannot be null");
+		Preconditions.checkNotNull(endWord, "End word cannot be null");
 		String[] words = {startWord, endWord};
 		boolean positionChanged = false;
 		Arrays.sort(words);
@@ -69,11 +72,6 @@ public class ReadFromUrl implements Callable<List<String>> {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-/*		if (alpabeticalOrder(startString, endString)) {
-			Collections.sort(lista, Collections.reverseOrder());
-			return lista;
-		}*/
 
 		return lista;
 	}
