@@ -19,7 +19,7 @@ public class DownloadData {
 		Preconditions.checkNotNull(startWord, "Start word cannot be null");
 		Preconditions.checkNotNull(endWord, "End word cannot be null");
 		int stringLength = startWord.length();
-		Callable<List<String>> readResources = new ReadFromURL(url, stringLength, startWord, endWord);
+		Callable<List<String>> readResources = new ReadFromUrl(url, stringLength, startWord, endWord);
 
 		ExecutorService executorService = Executors.newFixedThreadPool(processors);
 

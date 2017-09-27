@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,9 +30,7 @@ public class ProcessDirectoryDataTest {
 		
 		expected = 5;
 		value = ProcessDirectoryData.countWordsOccurrences("zxcvb", "zxcvb");
-		assertEquals("Test count word occurrences", expected, value);
-		
-
+		assertEquals("Test count word occurrences", expected, value);		
 	}
 	
 	@Test(expected = NullPointerException.class)

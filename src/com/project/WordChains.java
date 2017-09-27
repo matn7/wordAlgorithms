@@ -5,11 +5,11 @@ import java.util.*;
 public class WordChains {
 
 	public static void main(String[] args) {
-		String[] startArr = { "cat", "gold", "code", "bdrm", "adam" , "caba"};
-		String[] endArr = { "dog", "lead", "ruby", "ruby", "ruby", "rype" };
+		String[] startArr = { "cat", "gold", "code", "bdrm", "adam" , "caba", "dog", "lead"};
+		String[] endArr = { "dog", "lead", "ruby", "ruby", "ruby", "rype", "cat", "gold"};
 
-		String startWord = startArr[0];
-		String endWord = endArr[0];
+		String startWord = startArr[1];
+		String endWord = endArr[1];
 		String url = "http://codekata.com/data/wordlist.txt";
 		
 		List<String> directoryData = DownloadData.downloadDirectory(url, startWord, endWord);
