@@ -8,13 +8,13 @@ public class WordChains {
 		String[] startArr = { "cat", "gold", "code", "bdrm", "adam" , "caba"};
 		String[] endArr = { "dog", "lead", "ruby", "ruby", "ruby", "rype" };
 
-		String startWord = startArr[1];
-		String endWord = endArr[1];
+		String startWord = startArr[3];
+		String endWord = endArr[3];
 		String url = "http://codekata.com/data/wordlist.txt";
 		
 		List<String> directoryData = DownloadData.downloadDirectory(url, startWord, endWord);
 		
-		List<String> foundWordChainList = FindWordChain.prepareData(directoryData, startWord, endWord);
+		List<String> foundWordChainList = FindWordChainImpl.prepareData(directoryData, startWord, endWord);
 
 		displayResult(foundWordChainList);
 	}

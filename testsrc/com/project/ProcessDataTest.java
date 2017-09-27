@@ -2,6 +2,7 @@ package com.project;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,13 +24,15 @@ public class ProcessDataTest {
 	@Test
 	public void testCountTheOccurrences() {
 		int expected = 2;
-		int value = ProcessData.countTheOccurrences("cog", "dog");
+		int value = ProcessData.countWordsOccurrences("cog", "dog");
 		assertEquals("occured passed: ", expected, value);
+		
+
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void testCountTheOccurrencesNullPointerException() {
-		int value = ProcessData.countTheOccurrences(null, null);
+		int value = ProcessData.countWordsOccurrences(null, null);
 	}
 	
 	@Test
@@ -40,43 +43,43 @@ public class ProcessDataTest {
 		expected.add("dat");
 		expected.add("eat");
 
-		List<String> oneCallableResult = new ArrayList<>();
-		oneCallableResult.add("aat");
-		oneCallableResult.add("bat");
-		oneCallableResult.add("dat");
-		oneCallableResult.add("eat");
-		oneCallableResult.add("azt");
-		oneCallableResult.add("bay");
-		oneCallableResult.add("day");
-		oneCallableResult.add("ett");
+		List<String> wordList = new ArrayList<>();
+		wordList.add("aat");
+		wordList.add("bat");
+		wordList.add("dat");
+		wordList.add("eat");
+		wordList.add("azt");
+		wordList.add("bay");
+		wordList.add("day");
+		wordList.add("ett");
 
 		String regex = ".at";
 		String startWord = "cat";
 
-		List<String> value = ProcessData.matchByRegex(oneCallableResult, regex, startWord);
+		List<String> value = ProcessData.matchByRegex(wordList, regex, startWord);
 
 		assertArrayEquals(expected.toArray(), value.toArray());
 		expected.clear();
-		oneCallableResult.clear();
+		wordList.clear();
 
 		expected.add("cot");
 		expected.add("cbt");
 		expected.add("cqt");
 		expected.add("cet");
 
-		oneCallableResult.add("zzz");
-		oneCallableResult.add("cot");
-		oneCallableResult.add("cbt");
-		oneCallableResult.add("cqt");
-		oneCallableResult.add("cet");
-		oneCallableResult.add("azt");
-		oneCallableResult.add("bay");
-		oneCallableResult.add("day");
-		oneCallableResult.add("ett");
+		wordList.add("zzz");
+		wordList.add("cot");
+		wordList.add("cbt");
+		wordList.add("cqt");
+		wordList.add("cet");
+		wordList.add("azt");
+		wordList.add("bay");
+		wordList.add("day");
+		wordList.add("ett");
 
 		regex = "c.t";
 
-		value = ProcessData.matchByRegex(oneCallableResult, regex, startWord);
+		value = ProcessData.matchByRegex(wordList, regex, startWord);
 		assertArrayEquals(expected.toArray(), value.toArray());
 
 	}
@@ -127,6 +130,5 @@ public class ProcessDataTest {
 		value = ProcessData.getMatchingWord(null, null);
 
 	}
-	
 
 }

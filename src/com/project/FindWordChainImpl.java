@@ -10,42 +10,38 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Preconditions;
 
-public class DownloadData {
-	private static List<String> directoryData;
+public class FindWordChainImpl {
+	
+	private static List<String> wordChainDataList;
+	
 	private static final int processors = Runtime.getRuntime().availableProcessors();
-
-	public static List<String> downloadDirectory(String url, String startWord, String endWord) {
-		Preconditions.checkNotNull(url, "Url cannot be null");
+	
+	public static List<String> prepareData(List<String> directoryData, String startWord, String endWord) {
+		Preconditions.checkNotNull(directoryData, "directoryData cannot be null");
 		Preconditions.checkNotNull(startWord, "Start word cannot be null");
 		Preconditions.checkNotNull(endWord, "End word cannot be null");
 		
-		Callable<List<String>> readResources = new ReadFromURL(url,
-				startWord.length(), startWord, endWord);
-
+		Callable<List<String>> findWordChain = new FindWordChain(directoryData, startWord, endWord);
 		ExecutorService executorService = Executors.newFixedThreadPool(processors);
 
-		Future<List<String>> oneFuture = executorService.submit(readResources);
-
+		Future<List<String>> oneFuture = executorService.submit(findWordChain);
+		
 		try {
-			directoryData = oneFuture.get();
-			System.out.println("Directory content");
-			System.out.println("============================");
-			for (String result : directoryData) {
-				System.out.println(result);
-			}
-
+			wordChainDataList = oneFuture.get();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
+		
 		executorService.shutdown();
 		try {
 			executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
-		return directoryData;
+		
+		return wordChainDataList;
 	}
+
 }

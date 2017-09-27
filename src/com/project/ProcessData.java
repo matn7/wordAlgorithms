@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Preconditions;
 
-public class ProcessData {
+public class ProcessData {	
 	
 	public static List<String> matchByRegex(List<String> directoryData, String regex, String startWord) {
 		Preconditions.checkNotNull(directoryData, "List directoryData cannot be null");
@@ -39,7 +39,7 @@ public class ProcessData {
 		int maxTimeOccured = 0;
 		String matchWord = null;
 		Map<String, Integer> matchingResult = new HashMap<>();
-		List<Integer> matchingResultSeqInt = new ArrayList<>();
+		//List<Integer> matchingResultSeqInt = new ArrayList<>();
 		List<String> matchingResultSeqString = new ArrayList<>();
 		int biggestSequence = 0;
 		for (Map.Entry<String, Integer> pair : wordOccured.entrySet()) {
@@ -74,7 +74,7 @@ public class ProcessData {
 					}
 				}
 				biggestSequenceNumber.add(sequenceIndex);
-				matchingResultSeqInt.add(sequenceIndex);
+				//matchingResultSeqInt.add(sequenceIndex);
 				matchingResultSeqString.add(pair.getKey());
 				sequenceIndex = 0;
 				activateSequence = false;
@@ -85,13 +85,13 @@ public class ProcessData {
 				throw new NoSuchElementException("Do not found path sorry");
 			}
 
-			int index = matchingResultSeqInt.indexOf(biggestSequence);
+			int index = biggestSequenceNumber.indexOf(biggestSequence);
 			matchWord = matchingResultSeqString.get(index);
 		}
 		return matchWord;
 	}
 	
-	public static Integer countTheOccurrences(String word, String endWord) {
+	public static Integer countWordsOccurrences(String word, String endWord) {
 		Preconditions.checkNotNull(word, "Word cannot be null");
 		Preconditions.checkNotNull(endWord, "End word cannot be null");
 		int wordOccurred = 0;
