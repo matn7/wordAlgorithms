@@ -2,7 +2,9 @@ package com.project;
 
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -23,11 +25,15 @@ public class FindWordChainImpl {
 		
 		Callable<List<String>> findWordChain = new FindWordChain(directoryData, startWord, endWord);
 		ExecutorService executorService = Executors.newFixedThreadPool(processors);
+		
+		CompletionService<List<String>> completionService = new ExecutorCompletionService<>(executorService);
+		completionService.submit(findWordChain);
 
-		Future<List<String>> resultList = executorService.submit(findWordChain);
+		//Future<List<String>> resultList = executorService.submit(findWordChain);
 		
 		try {
-			wordChainDataList = resultList.get();
+			//wordChainDataList = resultList.get();
+			wordChainDataList = completionService.take().get();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {

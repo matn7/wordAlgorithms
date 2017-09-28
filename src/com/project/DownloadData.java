@@ -2,7 +2,9 @@ package com.project;
 
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -22,11 +24,14 @@ public class DownloadData {
 		Callable<List<String>> readResources = new ReadFromUrl(url, stringLength, startWord, endWord);
 
 		ExecutorService executorService = Executors.newFixedThreadPool(processors);
+		CompletionService<List<String>> completionService = new ExecutorCompletionService<>(executorService);
 
-		Future<List<String>> resultList = executorService.submit(readResources);
+		//Future<List<String>> resultList = executorService.submit(readResources);
+		completionService.submit(readResources);
 
 		try {
-			directoryData = resultList.get();
+			//directoryData = resultList.get();
+			directoryData = completionService.take().get();
 			System.out.println("Directory content");
 			System.out.println("============================");
 			for (String result : directoryData) {
